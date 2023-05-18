@@ -6,6 +6,7 @@ class GameManager
 public:
 	enum GameStates
 	{
+		SKAGO_GAMES_INTRO,
 		INTRO_SCREEN,
 		MAIN_MENU,
 		IN_GAME,
@@ -15,7 +16,7 @@ public:
 	GameManager();
 	~GameManager();
 	
-	GameStates gameStates = INTRO_SCREEN;
+	GameStates gameStates = SKAGO_GAMES_INTRO;
 private:
 	int score;
 public:

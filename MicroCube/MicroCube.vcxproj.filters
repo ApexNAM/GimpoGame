@@ -45,6 +45,9 @@
     <ClCompile Include="CameraController.cpp">
       <Filter>Others</Filter>
     </ClCompile>
+    <ClCompile Include="IntroScreen.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -69,6 +72,9 @@
       <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="CameraController.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScreen.h">
       <Filter>Others</Filter>
     </ClInclude>
   </ItemGroup>

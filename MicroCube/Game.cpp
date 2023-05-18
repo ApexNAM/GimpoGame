@@ -16,6 +16,7 @@ void Game::Init()
 
 	player.Start();
 	kimpo_TEX = LoadTexture("srcs/CI.png");
+	introScreen.Start();
 }
 
 void Game::Run()
@@ -35,12 +36,17 @@ void Game::Run()
 		EndDrawing();
 	}
 
+	introScreen.UnLoad();
 	CloseWindow();
 }
 
 void Game::Update()
 {
-	if (gameManager.gameStates == gameManager.INTRO_SCREEN)
+	if (gameManager.gameStates == gameManager.SKAGO_GAMES_INTRO)
+	{
+		introScreen.Update(&cameraController, &gameManager);
+	}
+	else if (gameManager.gameStates == gameManager.INTRO_SCREEN)
 	{
 		if (IsKeyPressed(KEY_X))
 			gameManager.gameStates = gameManager.MAIN_MENU;
@@ -94,19 +100,25 @@ void Game::Render()
 {
 	ClearBackground(RAYWHITE);
 
-	if (gameManager.gameStates == gameManager.INTRO_SCREEN)
+	if (gameManager.gameStates == gameManager.SKAGO_GAMES_INTRO)
+	{
+		introScreen.Draw();
+	}
+	else if (gameManager.gameStates == gameManager.INTRO_SCREEN)
 	{
 		DrawTexture(this->kimpo_TEX, 200, gimpo_Y, WHITE);
 		DrawText("The Game", 350, gimpo_T_Y, 60, BROWN);
 
-		DrawText("Press [X] to Start!", 400, 650, 30, BROWN);
+		DrawText("Press [X] to Start!", 800, 630, 30, BROWN);
+		DrawText("SkagoGames 2023. made in Skago.", 100, 650, 20, BROWN);
 	}
 	else if (gameManager.gameStates == gameManager.MAIN_MENU)
 	{
 		DrawTexture(this->kimpo_TEX, 200, 50, WHITE);
 		DrawText("The Game", 350, 500, 60, BROWN);
 
-		DrawText("[X] : GamePlay / [ESC] : Return Screen", 300, 650, 30, BROWN);
+		DrawText("[X] : GamePlay / [ESC] : Return Screen", 600, 630, 30, BROWN);
+		DrawText("SkagoGames 2023. made in Skago.", 100, 650, 20, BROWN);
 	}
 	else if (gameManager.gameStates == gameManager.IN_GAME)
 	{

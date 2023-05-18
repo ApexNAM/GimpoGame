@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 
+#include "IntroScreen.h"
 #include "GameManager.h"
 #include "Player.h"
 #include "GameObject.h"
@@ -20,6 +21,7 @@ private:
 	Texture2D kimpo_TEX = LoadTexture("/srcs/CI.png");
 private:
 	GameManager gameManager = GameManager();
+	IntroScreen introScreen = IntroScreen();
 	CameraController cameraController = CameraController();
 
 	Player player = Player();
@@ -34,7 +36,7 @@ private:
 	const int widthScreen = 1280;
 	const int heightScreen = 720;
 
-	const std::string gameName = "Gimpo TopDown";
+	const std::string gameName = "Gimpo Game";
 public:
 	Game();
 	~Game();
