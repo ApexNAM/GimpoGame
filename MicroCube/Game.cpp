@@ -14,6 +14,8 @@ void Game::Init()
 	InitWindow(this->widthScreen, this->heightScreen, this->gameName.c_str());
 	SetTargetFPS(60);
 
+	// ToggleFullscreenController();
+
 	player.Start();
 	kimpo_TEX = LoadTexture("srcs/CI.png");
 	introScreen.Start();
@@ -73,6 +75,7 @@ void Game::Update()
 	else if (gameManager.gameStates == gameManager.IN_GAME)
 	{
 		this->InGame();
+		gameManager.Update();
 
 		if (IsKeyPressed(KEY_ESCAPE))
 		{
@@ -92,6 +95,14 @@ void Game::Update()
 		{
 			AllClear();
 			gameManager.gameStates = gameManager.MAIN_MENU;
+		}
+	}
+	else if (gameManager.gameStates == gameManager.GAME_CLEAR)
+	{
+		if (IsKeyPressed(KEY_SPACE))
+		{
+			NextClear();
+			gameManager.gameStates = gameManager.IN_GAME;
 		}
 	}
 }
@@ -123,11 +134,18 @@ void Game::Render()
 	else if (gameManager.gameStates == gameManager.IN_GAME)
 	{
 		this->InGameDraw();
+
+		DrawText(TextFormat("Level  %i\t\tTime : %i", gameManager.getLevelIDX(), gameManager.getLimitTime()), 350, 30, 40, BLACK);
 	}
 	else if (gameManager.gameStates == gameManager.GAME_OVER)
 	{
 		DrawText("GAME OVER", 400, 250, 80, RED);
 		DrawText("Press [R] to Restart!", 470, 350, 30, BROWN);
+	}
+	else if (gameManager.gameStates == gameManager.GAME_CLEAR)
+	{
+		DrawText("GAME CLEAR!", 380, 250, 80, GREEN);
+		DrawText("Press [SPACE] Next Level!", 460, 350, 30, BROWN);
 	}
 }
 
@@ -157,7 +175,7 @@ void Game::InGame()
 		this->ToggleFullscreenController();
 	}
 
-	player.Update();
+	player.Update(&gameManager);
 
 	if (GetTime() >= nextTime)
 	{
@@ -226,7 +244,7 @@ void Game::InGame()
 		if (player.onCollisionDamage((*enemyBullet).get()))
 		{
 			cameraController.StartCameraShake(0.25f, 8.0f);
-			player.TakeDamage(10);
+			player.TakeDamage(100);
 			enemyBullet = enemyBullets.erase(enemyBullet);
 			continue;
 		}
@@ -327,4 +345,12 @@ void Game::AllClear()
 
 	player.ReturnHealth();
 	gameManager.ReturnScore();
+}
+
+void Game::NextClear()
+{
+	bullets.clear();
+
+	player.ReturnHealth();
+	gameManager.NextLevel();
 }

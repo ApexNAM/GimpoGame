@@ -37,14 +37,12 @@ void Player::Start()
 	this->hp = 100;
 }
 
-void Player::Update()
+void Player::Update(GameManager* gameManager)
 {
 
 	if (this->y < 0.0f)
 	{
-		this->y = 0;
-		this->hp = 0;
-		this->isDead = true;
+		gameManager->gameStates = gameManager->GAME_CLEAR;
 	}
 	else if (this->y > (GetScreenHeight() - 20))
 	{

@@ -54,6 +54,7 @@ private:
 	void SpawnBullet(bool isUpper);
 	void SpawnEnemy(int len);
 	void AllClear();
+	void NextClear();
 private:
 	float Lerp(float target, float pos, float percent)
 	{

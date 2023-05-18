@@ -1,5 +1,7 @@
 #include <raylib.h>
 #include "GameObject.h"
+#include "GameManager.h"
+
 #pragma once
 
 class Player
@@ -18,7 +20,7 @@ public:
 	~Player();
 public:
 	void Start();
-	void Update();
+	void Update(GameManager* gameManager);
 	void Draw();
 public:
 	void Jump();
