@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Main">
+      <UniqueIdentifier>{724c9eb3-4b54-4c04-9138-f615d14da7c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Players">
+      <UniqueIdentifier>{77c5c833-47bb-4e2a-b7c3-159e08acd740}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Others">
+      <UniqueIdentifier>{ba075c0f-14dd-495c-8d24-3765653d9882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy">
+      <UniqueIdentifier>{3948dca6-deb7-47dd-9556-abb55e5695dc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraController.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Players</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraController.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
