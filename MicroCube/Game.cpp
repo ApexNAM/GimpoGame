@@ -110,7 +110,7 @@ void Game::Update()
 		if (IsKeyPressed(KEY_R))
 		{
 			AllClear();
-			gameManager.gameStates = gameManager.IN_GAME;
+			gameManager.gameStates = gameManager.READY;
 		}
 
 		if (IsKeyPressed(KEY_ESCAPE)) 
