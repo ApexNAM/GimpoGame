@@ -6,13 +6,15 @@ EnemyBullet::EnemyBullet()
 	this->h = 10;
 }
 
-EnemyBullet::EnemyBullet(float x, float y)
+EnemyBullet::EnemyBullet(float x, float y, bool isDown)
 {
 	this->x = x;
 	this->y = y;
 
 	this->w = 5;
 	this->h = 20;
+
+	this->isDown = isDown;
 }
 
 EnemyBullet::~EnemyBullet()
@@ -25,10 +27,20 @@ void EnemyBullet::Start()
 
 void EnemyBullet::Update()
 {
-	if (this->y > GetScreenHeight())
-		isDestroyed = true;
-	else
-		this->y += 20.0f;
+	if (this->isDown)
+	{
+		if (this->y > GetScreenHeight())
+			isDestroyed = true;
+		else
+			this->y += 20.0f;
+	}
+	else 
+	{
+		if (this->y < 0.0f)
+			isDestroyed = true;
+		else
+			this->y -= 20.0f;
+	}
 }
 
 void EnemyBullet::Draw()

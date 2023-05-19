@@ -32,6 +32,8 @@ private: // 김포 로고 변수들
 	float gimpo_Y = -1200;
 	float gimpo_T_Y = 1200;
 
+	float commandTEXT = 1200;
+
 private:
 	const int widthScreen = 1280;
 	const int heightScreen = 720;

@@ -70,7 +70,11 @@ void Game::Update()
 			gimpo_T_Y = 1200;
 
 			gameManager.gameStates = gameManager.INTRO_SCREEN;
+
+			this->commandTEXT = 1200;
 		}
+
+		commandTEXT = Lerp(commandTEXT, 630, 0.15f);
 	}
 	else if (gameManager.gameStates == gameManager.IN_GAME)
 	{
@@ -128,8 +132,8 @@ void Game::Render()
 		DrawTexture(this->kimpo_TEX, 200, 50, WHITE);
 		DrawText("The Game", 350, 500, 60, BROWN);
 
-		DrawText("[X] : GamePlay / [ESC] : Return Screen", 600, 630, 30, BROWN);
-		DrawText("SkagoGames 2023. made in Skago.", 100, 650, 20, BROWN);
+		DrawText("[X] : GamePlay / [ESC] : Return Screen", 600, commandTEXT, 30, BROWN);
+		DrawText("SkagoGames 2023. made in Skago.", 100, (commandTEXT+20), 20, BROWN);
 	}
 	else if (gameManager.gameStates == gameManager.IN_GAME)
 	{
@@ -201,7 +205,11 @@ void Game::InGame()
 
 		if ((*enemy)->getFireMode())
 		{
-			enemyBullets.push_back(std::make_shared<EnemyBullet>((*enemy)->getX() + 15.0f, (*enemy)->getY()));
+			if ((*enemy)->getY() > player.getY())
+				enemyBullets.push_back(std::make_shared<EnemyBullet>((*enemy)->getX() + 15.0f, (*enemy)->getY(), false));
+			else if ((*enemy)->getY() < player.getY())
+				enemyBullets.push_back(std::make_shared<EnemyBullet>((*enemy)->getX() + 15.0f, (*enemy)->getY(), true));
+
 			(*enemy)->TurnOff_FireMode();
 		}
 
@@ -345,6 +353,11 @@ void Game::AllClear()
 
 	player.ReturnHealth();
 	gameManager.ReturnScore();
+
+	this->commandTEXT = 1200;
+
+	this->gimpo_Y = -1200;
+	this->gimpo_T_Y = 1200;
 }
 
 void Game::NextClear()
