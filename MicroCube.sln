@@ -9,6 +9,8 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		GimpoGame|x64 = GimpoGame|x64
+		GimpoGame|x86 = GimpoGame|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
@@ -17,6 +19,10 @@ Global
 		{74555402-96A4-4FCE-B0E3-28B3610F440A}.Debug|x64.Build.0 = Debug|x64
 		{74555402-96A4-4FCE-B0E3-28B3610F440A}.Debug|x86.ActiveCfg = Debug|Win32
 		{74555402-96A4-4FCE-B0E3-28B3610F440A}.Debug|x86.Build.0 = Debug|Win32
+		{74555402-96A4-4FCE-B0E3-28B3610F440A}.GimpoGame|x64.ActiveCfg = GimpoGame|x64
+		{74555402-96A4-4FCE-B0E3-28B3610F440A}.GimpoGame|x64.Build.0 = GimpoGame|x64
+		{74555402-96A4-4FCE-B0E3-28B3610F440A}.GimpoGame|x86.ActiveCfg = GimpoGame|Win32
+		{74555402-96A4-4FCE-B0E3-28B3610F440A}.GimpoGame|x86.Build.0 = GimpoGame|Win32
 		{74555402-96A4-4FCE-B0E3-28B3610F440A}.Release|x64.ActiveCfg = Release|x64
 		{74555402-96A4-4FCE-B0E3-28B3610F440A}.Release|x64.Build.0 = Release|x64
 		{74555402-96A4-4FCE-B0E3-28B3610F440A}.Release|x86.ActiveCfg = Release|Win32
