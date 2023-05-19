@@ -19,6 +19,7 @@ class Game
 private:
 	bool isRunning = true;
 	float nextTime = 0.0f;
+	int nextSpawnCount = 1;
 	Texture2D kimpo_TEX = LoadTexture("/srcs/CI.png");
 private:
 	GameManager gameManager = GameManager();

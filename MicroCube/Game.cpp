@@ -47,6 +47,11 @@ void Game::Run()
 
 void Game::Update()
 {
+	if (IsKeyPressed(KEY_ENTER))
+	{
+		this->ToggleFullscreenController();
+	}
+
 	if (gameManager.gameStates == gameManager.SKAGO_GAMES_INTRO)
 	{
 		introScreen.Update(&cameraController, &gameManager);
@@ -92,7 +97,7 @@ void Game::Update()
 	else if (gameManager.gameStates == gameManager.IN_GAME)
 	{
 		this->InGame();
-		gameManager.Update();
+		gameManager.Update(&cameraController);
 
 		if (IsKeyPressed(KEY_ESCAPE))
 		{
@@ -119,7 +124,6 @@ void Game::Update()
 		if (IsKeyPressed(KEY_SPACE))
 		{
 			NextClear();
-			gameManager.gameStates = gameManager.IN_GAME;
 		}
 	}
 }
@@ -170,7 +174,10 @@ void Game::Render()
 	}
 	else if (gameManager.gameStates == gameManager.READY)
 	{
-		DrawText("Let's Escape!", 380, 150, 80, BROWN);
+		if (gameManager.getLevelIDX() == 1)
+			DrawText("Let's Escape!", 380, 150, 80, BROWN);
+		else if (gameManager.getLevelIDX() >= 2)
+			DrawText("Let's Escape again!", 270, 150, 80, BROWN);
 
 		int textWidth1 = MeasureText("275, Gimpo Hangang 11-ro, Gimpo-si, Gyeonggi-do, Republic of Korea", 25);
 		int textX1 = (1280 - textWidth1) / 2;
@@ -215,11 +222,6 @@ void Game::InGame()
 	{
 		cameraController.StartCameraShake(0.5f, 5.5f);
 		gameManager.gameStates = gameManager.GAME_OVER;
-	}
-
-	if (IsKeyPressed(KEY_LEFT_ALT) && IsKeyPressed(KEY_ENTER))
-	{
-		this->ToggleFullscreenController();
 	}
 
 	player.Update(&gameManager);
@@ -349,7 +351,10 @@ void Game::InGame()
 	}
 
 	if (enemies.empty())
-		SpawnEnemy(GetRandomValue(1, 5));
+	{
+		nextSpawnCount++;
+		SpawnEnemy(nextSpawnCount);
+	}
 }
 
 void Game::InGameDraw()
@@ -401,12 +406,19 @@ void Game::AllClear()
 
 	this->gimpo_Y = -1200;
 	this->gimpo_T_Y = 1200;
+
+	nextSpawnCount = 1;
 }
 
 void Game::NextClear()
 {
+	enemyBullets.clear();
 	bullets.clear();
 
 	player.ReturnHealth();
 	gameManager.NextLevel();
+
+	nextSpawnCount++;
+
+	gameManager.gameStates = gameManager.READY;
 }

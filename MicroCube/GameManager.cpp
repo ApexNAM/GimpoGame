@@ -9,12 +9,13 @@ GameManager::~GameManager()
 {
 }
 
-void GameManager::Update()
+void GameManager::Update(CameraController* camera)
 {
 	limitTime -= GetFrameTime();
 
 	if (limitTime <= 0.0f)
 	{
+		camera->StartCameraShake(0.25f, 8.0f);
 		gameStates = GAME_OVER;
 		limitTime = 0.0f;
 	}

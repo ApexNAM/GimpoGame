@@ -2,6 +2,7 @@
 
 #include <raylib.h>
 #include <vector>
+#include "CameraController.h"
 
 #define MAX_LIMIT_TIME 60.0f
 
@@ -31,7 +32,7 @@ private:
 private:
 	float startTime = 0.0f;
 public:
-	void Update();
+	void Update(CameraController* camera);
 	void ReadyTime();
 public:
 	void AddScore(int takeScore);
