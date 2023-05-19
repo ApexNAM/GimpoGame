@@ -10,6 +10,7 @@
 #include "EnemyBullet.h"
 #include "Bullet.h"
 #include "CameraController.h"
+#include "GimpoAnim.h"
 
 
 #pragma once
@@ -25,6 +26,8 @@ private:
 	CameraController cameraController = CameraController();
 
 	Player player = Player();
+	GimpoAnim gimpoAnim = GimpoAnim();
+
 	std::vector<std::shared_ptr<Enemy>> enemies;
 	std::vector<std::shared_ptr<Bullet>> bullets;
 	std::vector<std::shared_ptr<EnemyBullet>> enemyBullets;

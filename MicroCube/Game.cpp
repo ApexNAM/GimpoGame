@@ -19,6 +19,7 @@ void Game::Init()
 	player.Start();
 	kimpo_TEX = LoadTexture("srcs/CI.png");
 	introScreen.Start();
+	gimpoAnim.Start();
 }
 
 void Game::Run()
@@ -38,6 +39,7 @@ void Game::Run()
 		EndDrawing();
 	}
 
+	player.UnLoad();
 	introScreen.UnLoad();
 	CloseWindow();
 }
@@ -62,7 +64,7 @@ void Game::Update()
 	else if (gameManager.gameStates == gameManager.MAIN_MENU)
 	{
 		if (IsKeyPressed(KEY_X))
-			gameManager.gameStates = gameManager.IN_GAME;
+			gameManager.gameStates = gameManager.TUTORAL;
 
 		if (IsKeyPressed(KEY_ESCAPE))
 		{
@@ -75,6 +77,16 @@ void Game::Update()
 		}
 
 		commandTEXT = Lerp(commandTEXT, 630, 0.15f);
+	}
+	else if (gameManager.gameStates == gameManager.TUTORAL)
+	{
+		if (IsKeyPressed(KEY_SPACE))
+			gameManager.gameStates = gameManager.READY;
+	}
+	else if (gameManager.gameStates == gameManager.READY)
+	{
+		gameManager.ReadyTime();
+		gimpoAnim.Update();
 	}
 	else if (gameManager.gameStates == gameManager.IN_GAME)
 	{
@@ -134,6 +146,36 @@ void Game::Render()
 
 		DrawText("[X] : GamePlay / [ESC] : Return Screen", 600, commandTEXT, 30, BROWN);
 		DrawText("SkagoGames 2023. made in Skago.", 100, (commandTEXT+20), 20, BROWN);
+	}
+	else if (gameManager.gameStates == gameManager.TUTORAL)
+	{
+		DrawText("How To Play?", 380, 150, 80, GREEN);
+
+		int textWidth1 = MeasureText("[A][D] : Movement", 30);
+		int textX1 = (1280 - textWidth1) / 2;
+		DrawText("[A][D] : Movement", textX1, 300, 30, GRAY);
+
+		int textWidth2 = MeasureText("[W][S] : Shoot Bullet", 30);
+		int textX2 = (1280 - textWidth2) / 2;
+		DrawText("[W][S] : Shoot Bullet", textX2, 350, 30, GRAY);
+
+		int textWidth3 = MeasureText("[SPACE] : Jump", 30);
+		int textX3 = (1280 - textWidth3) / 2;
+		DrawText("[SPACE] : Jump", textX3, 400, 30, GRAY);
+
+		int textWidth4 = MeasureText("The player's goal is to paralyze the gold cloud in 60 seconds, \nstepping on the cloud and moving up. PRESS [SPACE] TO START!", 20);
+		int textX4 = (1280 - textWidth4) / 2;
+		DrawText("The player's goal is to paralyze the gold cloud in 60 seconds, \nstepping on the cloud and moving up. PRESS [SPACE] TO START!", textX4, 450, 20, GRAY);
+	}
+	else if (gameManager.gameStates == gameManager.READY)
+	{
+		DrawText("Let's Escape!", 380, 150, 80, BROWN);
+
+		int textWidth1 = MeasureText("275, Gimpo Hangang 11-ro, Gimpo-si, Gyeonggi-do, Republic of Korea", 25);
+		int textX1 = (1280 - textWidth1) / 2;
+		DrawText("275, Gimpo Hangang 11-ro, Gimpo-si, Gyeonggi-do, Republic of Korea", textX1, 300, 25, GRAY);
+
+		gimpoAnim.Draw();
 	}
 	else if (gameManager.gameStates == gameManager.IN_GAME)
 	{

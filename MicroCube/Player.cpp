@@ -89,6 +89,10 @@ void Player::Draw()
 		DrawRectangle(this->x, this->y, this->w, this->h, BLACK);
 }
 
+void Player::UnLoad()
+{
+}
+
 void Player::Jump()
 {
 	this->y -= 500.0f * GetFrameTime();

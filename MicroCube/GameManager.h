@@ -13,6 +13,8 @@ public:
 		SKAGO_GAMES_INTRO,
 		INTRO_SCREEN,
 		MAIN_MENU,
+		TUTORAL,
+		READY,
 		IN_GAME,
 		GAME_OVER,
 		GAME_CLEAR
@@ -26,8 +28,11 @@ private:
 	int score;
 	int level = 1;
 	float limitTime = MAX_LIMIT_TIME;
+private:
+	float startTime = 0.0f;
 public:
 	void Update();
+	void ReadyTime();
 public:
 	void AddScore(int takeScore);
 	void ReturnScore();

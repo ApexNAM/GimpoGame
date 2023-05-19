@@ -20,6 +20,17 @@ void GameManager::Update()
 	}
 }
 
+void GameManager::ReadyTime()
+{
+	startTime += GetFrameTime();
+
+	if (startTime >= 3.0f)
+	{
+		gameStates = IN_GAME;
+		startTime = 0.0f;
+	}
+}
+
 void GameManager::AddScore(int takeScore)
 {
 	this->score += takeScore;

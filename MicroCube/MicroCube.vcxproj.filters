@@ -48,6 +48,9 @@
     <ClCompile Include="IntroScreen.cpp">
       <Filter>Others</Filter>
     </ClCompile>
+    <ClCompile Include="GimpoAnim.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -75,6 +78,9 @@
       <Filter>Others</Filter>
     </ClInclude>
     <ClInclude Include="IntroScreen.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+    <ClInclude Include="GimpoAnim.h">
       <Filter>Others</Filter>
     </ClInclude>
   </ItemGroup>

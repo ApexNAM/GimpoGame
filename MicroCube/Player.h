@@ -22,6 +22,7 @@ public:
 	void Start();
 	void Update(GameManager* gameManager);
 	void Draw();
+	void UnLoad();
 public:
 	void Jump();
 	void DoubleJump(float power);
