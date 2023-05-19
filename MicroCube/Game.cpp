@@ -41,6 +41,7 @@ void Game::Run()
 
 	player.UnLoad();
 	introScreen.UnLoad();
+	gimpoAnim.UnLoad();
 	CloseWindow();
 }
 
