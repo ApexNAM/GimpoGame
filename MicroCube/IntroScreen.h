@@ -10,6 +10,9 @@ private:
 	Rectangle frameRec = { 0.0f, 0.0f, (float)introLogo.width / 8, (float)introLogo.height };
 	Vector2 position = { 350.0f, 180.0f };
 private:
+	Sound introBegin = LoadSound("srcs/Sounds/rnc_intro_sound.wav");
+	Sound introEnd = LoadSound("srcs/Sounds/rnc_intro_end_sound.wav");
+private:
 	int currentFrame = 0;
 	int framesCounter = 0;
 	int frameSpeed = 4;

@@ -18,7 +18,8 @@ public:
 		READY,
 		IN_GAME,
 		GAME_OVER,
-		GAME_CLEAR
+		GAME_CLEAR,
+		GAME_CLEAR_ALL
 	};
 public:
 	GameManager();

@@ -12,14 +12,28 @@ Game::~Game()
 void Game::Init()
 {
 	InitWindow(this->widthScreen, this->heightScreen, this->gameName.c_str());
+	InitAudioDevice();
+	
 	SetTargetFPS(60);
 
 	// ToggleFullscreenController();
 
 	player.Start();
-	kimpo_TEX = LoadTexture("srcs/CI.png");
+	kimpo_TEX = LoadTexture("srcs/Images/CI.png");
+	kimpo_Metro = LoadTexture("srcs/Images/GimpoMetro.png");
+
+	kimpo_City[0] = LoadTexture("srcs/Images/GimpoCity1.png");
+	kimpo_City[1] = LoadTexture("srcs/Images/GimpoCity2.png");
+	kimpo_City[2] = LoadTexture("srcs/Images/GimpoCity3.png");
+
+	ClearCity = LoadTexture("srcs/Images/GundomCity.png");
+
+	rndImage = GetRandomValue(1, 2);
+	rndKimpoCity = GetRandomValue(0, 2);
+
 	introScreen.Start();
 	gimpoAnim.Start();
+	boss.Start();
 }
 
 void Game::Run()
@@ -40,6 +54,7 @@ void Game::Run()
 	}
 
 	player.UnLoad();
+	boss.UnLoad();
 	introScreen.UnLoad();
 	gimpoAnim.UnLoad();
 	CloseWindow();
@@ -126,6 +141,14 @@ void Game::Update()
 			NextClear();
 		}
 	}
+	else if (gameManager.gameStates == gameManager.GAME_CLEAR_ALL)
+	{
+		if (IsKeyPressed(KEY_ESCAPE))
+		{
+			AllClear();
+			gameManager.gameStates = gameManager.MAIN_MENU;
+		}
+	}
 }
 
 void Game::Render()
@@ -201,6 +224,16 @@ void Game::Render()
 		DrawText("GAME CLEAR!", 380, 250, 80, GREEN);
 		DrawText("Press [SPACE] Next Level!", 460, 350, 30, BROWN);
 	}
+	else if (gameManager.gameStates == gameManager.GAME_CLEAR_ALL)
+	{
+		DrawTexture(this->ClearCity, 0, 0, WHITE);
+		DrawText("You Escaped! WA!", 300, 50, 80, ORANGE);
+		DrawText(TextFormat("Final Score: %i , Thank you for playing!", gameManager.getScore()), 370, 180, 30, ORANGE);
+
+		int textWidth1 = MeasureText("15 Geomdan-ro 502 beon-gil, Seo-gu, Incheon, Republic of Korea\nPress [ESC] return menu.", 25);
+		int textX1 = (1280 - textWidth1) / 2;
+		DrawText("15 Geomdan-ro 502 beon-gil, Seo-gu, Incheon, Republic of Korea\nPress [ESC] return menu.", textX1, 320, 20, ORANGE);
+	}
 }
 
 void Game::ToggleFullscreenController()
@@ -243,72 +276,74 @@ void Game::InGame()
 		nextTime = GetTime() + 0.05f;
 	}
 
-
-	for (auto enemy = enemies.begin(); enemy != enemies.end();)
+	if (gameManager.getLevelIDX() != 4)
 	{
-		(*enemy)->Update();
-
-		if ((*enemy)->getFireMode())
+		for (auto enemy = enemies.begin(); enemy != enemies.end();)
 		{
-			if ((*enemy)->getY() > player.getY())
-				enemyBullets.push_back(std::make_shared<EnemyBullet>((*enemy)->getX() + 15.0f, (*enemy)->getY(), false));
-			else if ((*enemy)->getY() < player.getY())
-				enemyBullets.push_back(std::make_shared<EnemyBullet>((*enemy)->getX() + 15.0f, (*enemy)->getY(), true));
+			(*enemy)->Update();
 
-			(*enemy)->TurnOff_FireMode();
-		}
-
-		std::string enemyTag = "Enemy";
-
-		if ((*enemy)->Tag() == enemyTag)
-		{
-			if (player.onCollisionEnter((*enemy).get(), 300.0f))
+			if ((*enemy)->getFireMode())
 			{
-				if (!(*enemy)->CheckDead())
-				{
-					cameraController.StartCameraShake(0.25f, 8.0f);
-					player.TakeDamage(5);
-				}
-				else
-				{
-					cameraController.StartCameraShake(0.25f, 2.0f);
-					player.TakeHealth(10);
-					gameManager.AddScore(1);
-				}
+				if ((*enemy)->getY() > player.getY())
+					enemyBullets.push_back(std::make_shared<EnemyBullet>((*enemy)->getX() + 15.0f, (*enemy)->getY(), false));
+				else if ((*enemy)->getY() < player.getY())
+					enemyBullets.push_back(std::make_shared<EnemyBullet>((*enemy)->getX() + 15.0f, (*enemy)->getY(), true));
 
+				(*enemy)->TurnOff_FireMode();
+			}
+
+			std::string enemyTag = "Enemy";
+
+			if ((*enemy)->Tag() == enemyTag)
+			{
+				if (player.onCollisionEnter((*enemy).get(), 300.0f))
+				{
+					if (!(*enemy)->CheckDead())
+					{
+						cameraController.StartCameraShake(0.25f, 8.0f);
+						player.TakeDamage(5);
+					}
+					else
+					{
+						cameraController.StartCameraShake(0.25f, 2.0f);
+						player.TakeHealth(10);
+						gameManager.AddScore(1);
+					}
+
+					enemy = enemies.erase(enemy);
+					continue;
+				}
+			}
+
+			if ((*enemy)->IsDestroyed())
+			{
 				enemy = enemies.erase(enemy);
 				continue;
 			}
+
+			++enemy;
 		}
 
-		if ((*enemy)->IsDestroyed())
+		for (auto enemyBullet = enemyBullets.begin(); enemyBullet != enemyBullets.end();)
 		{
-			enemy = enemies.erase(enemy);
-			continue;
+			(*enemyBullet)->Update();
+
+			if (player.onCollisionDamage((*enemyBullet).get()))
+			{
+				cameraController.StartCameraShake(0.25f, 12.0f);
+				player.TakeDamage(30);
+				enemyBullet = enemyBullets.erase(enemyBullet);
+				continue;
+			}
+
+			if ((*enemyBullet)->IsDestroyed())
+			{
+				enemyBullet = enemyBullets.erase(enemyBullet);
+				continue;
+			}
+
+			++enemyBullet;
 		}
-
-		++enemy;
-	}
-
-	for (auto enemyBullet = enemyBullets.begin(); enemyBullet != enemyBullets.end();)
-	{
-		(*enemyBullet)->Update();
-
-		if (player.onCollisionDamage((*enemyBullet).get()))
-		{
-			cameraController.StartCameraShake(0.25f, 8.0f);
-			player.TakeDamage(100);
-			enemyBullet = enemyBullets.erase(enemyBullet);
-			continue;
-		}
-
-		if ((*enemyBullet)->IsDestroyed())
-		{
-			enemyBullet = enemyBullets.erase(enemyBullet);
-			continue;
-		}
-
-		++enemyBullet;
 	}
 
 	for (auto bullet = bullets.begin(); bullet != bullets.end();)
@@ -346,21 +381,83 @@ void Game::InGame()
 			}
 		}
 
+		if ((*bullet)->onCollisionEnter(&boss))
+		{
+			boss.TakeDamage_Boss(1);
+			isColl = true;
+		}
+
 		if (!isColl)
 			++bullet;
 	}
 
-	if (enemies.empty())
+	if (gameManager.getLevelIDX() == 4)
 	{
-		nextSpawnCount++;
-		SpawnEnemy(nextSpawnCount);
+		boss.Update();
+
+		if (boss.isFireModeEnabled())
+		{
+			float rnd = (float)GetRandomValue(32, 128);
+			bossBullets.push_back(std::make_shared<BossBullet>((boss.getX() + 48) + rnd, boss.getY()));
+			boss.SetFireMode_Off();
+		}
+
+		if (boss.getIsDead())
+		{
+			if (boss.getY() >= GetScreenHeight())
+			{
+				boss.PlaySoundClear();
+				gameManager.gameStates = gameManager.GAME_CLEAR_ALL;
+			}
+		}
+	}
+	else
+	{
+		if (enemies.empty())
+		{
+			nextSpawnCount++;
+			SpawnEnemy(nextSpawnCount);
+		}
+	}
+
+	for (auto bossBullet = bossBullets.begin(); bossBullet != bossBullets.end();)
+	{
+		(*bossBullet)->Update();
+
+		if (player.onCollisionDamage((*bossBullet).get()))
+		{
+			cameraController.StartCameraShake(0.45f, 20.0f);
+			player.TakeDamage(100);
+			bossBullet = bossBullets.erase(bossBullet);
+			continue;
+		}
+
+		if ((*bossBullet)->IsDestroyed())
+		{
+			bossBullet = bossBullets.erase(bossBullet);
+			continue;
+		}
+
+		++bossBullet;
 	}
 }
 
 void Game::InGameDraw()
 {
-	DrawTexture(this->kimpo_TEX, 200, 50, WHITE);
-	DrawText("The Game", 350, 500, 60, BROWN);
+	if (rndImage == 1)
+	{
+		DrawTexture(this->kimpo_TEX, 200, 50, WHITE);
+		DrawText("The Game", 350, 500, 60, BROWN);
+	}
+	else if (rndImage == 2)
+	{
+		DrawTexture(this->kimpo_Metro, 0, 0, WHITE);
+	}
+	else if (rndImage == 3)
+	{
+		DrawTexture(this->kimpo_City[rndKimpoCity], 0, 0, WHITE);
+	}
+
 	DrawText(TextFormat("HP: %i", player.getHP()), 50, 50, 30, RED);
 	DrawText(TextFormat("Score: %i", gameManager.getScore()), 1100, 50, 30, RED);
 
@@ -375,6 +472,14 @@ void Game::InGameDraw()
 
 	for (auto& enemyBullet : enemyBullets)
 		enemyBullet->Draw();
+
+	for (auto& bossBullet : bossBullets)
+		bossBullet->Draw();
+
+	if (gameManager.getLevelIDX() == 4)
+	{
+		boss.Draw();
+	}
 }
 
 void Game::SpawnBullet(bool isUpper)
@@ -383,6 +488,8 @@ void Game::SpawnBullet(bool isUpper)
 		bullets.push_back(std::make_shared<Bullet>(player.getX() + 5.0f, player.getY(), true));
 	else
 		bullets.push_back(std::make_shared<Bullet>(player.getX() + 5.0f, player.getY(), false));
+
+	player.FireSoundPlay();
 }
 
 void Game::SpawnEnemy(int len)
@@ -408,10 +515,13 @@ void Game::AllClear()
 	this->gimpo_T_Y = 1200;
 
 	nextSpawnCount = 1;
+	rndImage = GetRandomValue(1, 3);
+	rndKimpoCity = GetRandomValue(0, 2);
 }
 
 void Game::NextClear()
 {
+	enemies.clear();
 	enemyBullets.clear();
 	bullets.clear();
 
@@ -419,6 +529,9 @@ void Game::NextClear()
 	gameManager.NextLevel();
 
 	nextSpawnCount++;
+
+	rndImage = GetRandomValue(1, 3);
+	rndKimpoCity = GetRandomValue(0, 2);
 
 	gameManager.gameStates = gameManager.READY;
 }

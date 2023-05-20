@@ -14,6 +14,12 @@ private:
 	bool isDead = false;
 	bool isGrounded = false;
 	float nextDamageTime = 0.0f;
+private:
+	Sound gunFireSound = LoadSound("/srcs/Sounds/fire.wav");
+	Sound jumpSound = LoadSound("/srcs/Sounds/JumpSound.wav");
+	Sound hitSound = LoadSound("/srcs/Sounds/Hit.wav");
+	Sound clapSound = LoadSound("/srcs/Sounds/clap.wav");
+	Sound clapSound2 = LoadSound("/srcs/Sounds/clap2.wav");
 public:
 	Player();
 	Player(float sx, float sy, int sw, int sh);
@@ -29,6 +35,7 @@ public:
 	void TakeDamage(int damage);
 	void TakeHealth(int health);
 	void ReturnHealth();
+	void FireSoundPlay();
 public:
 	bool onCollisionDamage(GameObject* targetObject);
 	bool onCollisionEnter(GameObject* targetObject, float targetPower);

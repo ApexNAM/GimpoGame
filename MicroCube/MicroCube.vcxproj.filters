@@ -51,6 +51,12 @@
     <ClCompile Include="GimpoAnim.cpp">
       <Filter>Others</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBullet.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -82,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="GimpoAnim.h">
       <Filter>Others</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBullet.h">
+      <Filter>Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

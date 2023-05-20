@@ -48,7 +48,7 @@ void Enemy::Update()
 
 			if (this->x < 0.0f)
 			{
-				if (this->y <= 700.0f)
+				if (this->y <= 600.0f)
 					this->y += 20;
 
 				isRight = false;
@@ -61,7 +61,7 @@ void Enemy::Update()
 
 			if (this->x > GetScreenWidth())
 			{
-				if (this->y <= 700.0f)
+				if (this->y <= 600.0f)
 					this->y += 20;
 
 				isRight = true;

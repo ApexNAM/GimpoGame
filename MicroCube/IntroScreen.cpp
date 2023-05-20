@@ -10,7 +10,10 @@ IntroScreen::~IntroScreen()
 
 void IntroScreen::Start()
 {
-	this->introLogo = LoadTexture("srcs/SkagoGames.png");
+	this->introLogo = LoadTexture("srcs/Images/SkagoGames.png");
+	this->introBegin = LoadSound("srcs/Sounds/rnc_intro_sound.wav");
+	this->introEnd = LoadSound("srcs/Sounds/rnc_intro_end_sound.wav");
+
 	this->frameRec = { 0.0f, 0.0f, (float)introLogo.width / 8, (float)introLogo.height };
 	this->position = { 550.0f, 180.0f };
 }
@@ -19,16 +22,21 @@ void IntroScreen::Update(CameraController* camera, GameManager* gameManager)
 {
 	framesCounter++;
 
-	if (framesCounter >= (30 / frameSpeed) && currentFrame < 7)
+	if (framesCounter >= (40 / frameSpeed) && currentFrame < 7)
 	{
 		camera->StartCameraShake(0.25f, 5.0f);
 
 		framesCounter = 0;
 		currentFrame++;
 
-		if (currentFrame > 7)
+		if (currentFrame >= 7)
 		{
+			PlaySound(this->introEnd);
 			currentFrame = 7;
+		}
+		else if (currentFrame < 7)
+		{
+			PlaySound(this->introBegin);
 		}
 
 		frameRec.x = (float)currentFrame * (float)introLogo.width / 8;
@@ -60,4 +68,6 @@ void IntroScreen::Draw()
 void IntroScreen::UnLoad()
 {
 	UnloadTexture(introLogo);
+	UnloadSound(this->introBegin);
+	UnloadSound(this->introEnd);
 }

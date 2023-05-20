@@ -35,6 +35,13 @@ void Player::Start()
 
 	this->x = GetRandomValue(0, 1280);
 	this->hp = 100;
+
+	this->gunFireSound = LoadSound("srcs/Sounds/fire.wav");
+	this->jumpSound = LoadSound("srcs/Sounds/JumpSound.wav");
+	this->hitSound = LoadSound("srcs/Sounds/Hit.wav");
+
+	this->clapSound = LoadSound("srcs/Sounds/clap.wav");
+	this->clapSound2 = LoadSound("srcs/Sounds/clap2.wav");
 }
 
 void Player::Update(GameManager* gameManager)
@@ -42,7 +49,16 @@ void Player::Update(GameManager* gameManager)
 
 	if (this->y < 0.0f)
 	{
-		gameManager->gameStates = gameManager->GAME_CLEAR;
+		if (gameManager->getLevelIDX() < 5)
+		{
+			PlaySound(this->clapSound2);
+			gameManager->gameStates = gameManager->GAME_CLEAR;
+		}
+		else if (gameManager->getLevelIDX() >= 5)
+		{
+			PlaySound(this->clapSound);
+			gameManager->gameStates = gameManager->GAME_CLEAR_ALL;
+		}
 	}
 	else if (this->y > (GetScreenHeight() - 20))
 	{
@@ -91,22 +107,31 @@ void Player::Draw()
 
 void Player::UnLoad()
 {
+	UnloadSound(this->gunFireSound);
+	UnloadSound(this->jumpSound);
+	UnloadSound(this->hitSound);
+	UnloadSound(this->clapSound);
+	UnloadSound(this->clapSound2);
 }
 
 void Player::Jump()
 {
+	PlaySound(this->jumpSound);
 	this->y -= 500.0f * GetFrameTime();
 	this->isGrounded = false;
 }
 
 void Player::DoubleJump(float power)
 {
+	PlaySound(this->jumpSound);
+
 	this->y += this->vy + power;
 	this->isGrounded = false;
 }
 
 void Player::TakeDamage(int damage)
 {
+	PlaySound(this->hitSound);
 	this->hp -= damage;
 
 	if (this->hp <= 0)
@@ -138,6 +163,14 @@ void Player::ReturnHealth()
 
 	this->speed = 300.0f;
 	this->vy = -this->speed;
+
+	StopSound(this->clapSound);
+	StopSound(this->clapSound2);
+}
+
+void Player::FireSoundPlay()
+{
+	PlaySound(this->gunFireSound);
 }
 
 bool Player::onCollisionDamage(GameObject* targetObject)
