@@ -381,10 +381,13 @@ void Game::InGame()
 			}
 		}
 
-		if ((*bullet)->onCollisionEnter(&boss))
+		if (gameManager.getLevelIDX() == 4)
 		{
-			boss.TakeDamage_Boss(1);
-			isColl = true;
+			if ((*bullet)->onCollisionEnter(&boss))
+			{
+				boss.TakeDamage_Boss(1);
+				isColl = true;
+			}
 		}
 
 		if (!isColl)
@@ -410,6 +413,27 @@ void Game::InGame()
 				gameManager.gameStates = gameManager.GAME_CLEAR_ALL;
 			}
 		}
+
+		for (auto bossBullet = bossBullets.begin(); bossBullet != bossBullets.end();)
+		{
+			(*bossBullet)->Update();
+
+			if (player.onCollisionDamage((*bossBullet).get()))
+			{
+				cameraController.StartCameraShake(0.45f, 20.0f);
+				player.TakeDamage(100);
+				bossBullet = bossBullets.erase(bossBullet);
+				continue;
+			}
+
+			if ((*bossBullet)->IsDestroyed())
+			{
+				bossBullet = bossBullets.erase(bossBullet);
+				continue;
+			}
+
+			++bossBullet;
+		}
 	}
 	else
 	{
@@ -418,27 +442,6 @@ void Game::InGame()
 			nextSpawnCount++;
 			SpawnEnemy(nextSpawnCount);
 		}
-	}
-
-	for (auto bossBullet = bossBullets.begin(); bossBullet != bossBullets.end();)
-	{
-		(*bossBullet)->Update();
-
-		if (player.onCollisionDamage((*bossBullet).get()))
-		{
-			cameraController.StartCameraShake(0.45f, 20.0f);
-			player.TakeDamage(100);
-			bossBullet = bossBullets.erase(bossBullet);
-			continue;
-		}
-
-		if ((*bossBullet)->IsDestroyed())
-		{
-			bossBullet = bossBullets.erase(bossBullet);
-			continue;
-		}
-
-		++bossBullet;
 	}
 }
 
