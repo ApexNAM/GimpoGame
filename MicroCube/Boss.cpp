@@ -71,6 +71,8 @@ void Boss::Reset()
 
 	this->w = 256;
 	this->h = 256;
+
+	StopSound(this->clearSound);
 }
 
 void Boss::UnLoad()

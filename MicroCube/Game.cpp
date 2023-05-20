@@ -57,6 +57,18 @@ void Game::Run()
 	boss.UnLoad();
 	introScreen.UnLoad();
 	gimpoAnim.UnLoad();
+
+	UnloadTexture(this->kimpo_TEX);
+	UnloadTexture(this->kimpo_Metro);
+
+	for (int i = 0; i < 3; i++)
+	{
+		UnloadTexture(this->kimpo_City[i]);
+	}
+
+	UnloadTexture(this->ClearCity);
+
+
 	CloseWindow();
 }
 
@@ -479,8 +491,7 @@ void Game::InGameDraw()
 	for (auto& bossBullet : bossBullets)
 		bossBullet->Draw();
 
-	if (gameManager.getLevelIDX() == 4)
-	{
+	if (gameManager.getLevelIDX() == 4) {
 		boss.Draw();
 	}
 }
@@ -511,6 +522,7 @@ void Game::AllClear()
 
 	player.ReturnHealth();
 	gameManager.ReturnScore();
+	boss.Reset();
 
 	this->commandTEXT = 1200;
 
@@ -530,6 +542,7 @@ void Game::NextClear()
 
 	player.ReturnHealth();
 	gameManager.NextLevel();
+	boss.Reset();
 
 	nextSpawnCount++;
 
