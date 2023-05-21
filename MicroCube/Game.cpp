@@ -412,8 +412,12 @@ void Game::InGame()
 
 		if (boss.isFireModeEnabled())
 		{
-			float rnd = (float)GetRandomValue(32, 128);
-			bossBullets.push_back(std::make_shared<BossBullet>((boss.getX() + 48) + rnd, boss.getY()));
+			float rnd = GetRandomValue(1, 2);
+			if (rnd == 1)
+				bossBullets.push_back(std::make_shared<BossBullet>(boss.getX() - 128, boss.getY() + 70));
+			else if (rnd == 2)
+				bossBullets.push_back(std::make_shared<BossBullet>(boss.getX() + 350, boss.getY() + 70));
+			
 			boss.SetFireMode_Off();
 		}
 

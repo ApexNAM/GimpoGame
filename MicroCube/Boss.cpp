@@ -58,8 +58,16 @@ void Boss::Update()
 
 void Boss::Draw()
 {
-	if (!this->isDead)
-		DrawRectangle(this->x, this->y, this->w, this->h, BROWN);
+	DrawRectangle(this->x, this->y, this->w, this->h, BROWN);
+
+	if (!this->isDead) {
+		DrawCircle(this->x - 64, this->y + 30, 30, BROWN);
+		DrawRectangle(this->x - 128, this->y + 30, 32, 128, BROWN);
+
+		DrawCircle(this->x + 320, this->y + 30, 30, BROWN);
+		DrawRectangle(this->x + 350, this->y + 30, 32, 128, BROWN);
+	}
+
 }
 
 void Boss::Reset()
