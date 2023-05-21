@@ -228,6 +228,9 @@
     <ClInclude Include="IntroScreen.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MicroCube.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\raylib.4.5.0\build\native\raylib.targets" Condition="Exists('..\packages\raylib.4.5.0\build\native\raylib.targets')" />

@@ -96,4 +96,7 @@
       <Filter>Enemy</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MicroCube.rc" />
+  </ItemGroup>
 </Project>
