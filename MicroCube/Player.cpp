@@ -6,7 +6,7 @@ Player::Player()
 	this->y = 700;
 
 	this->w = 20;
-	this->h = 20;
+	this->h = 40;
 	
 	this->speed = 300.0f;
 	this->vy = -this->speed;
@@ -60,9 +60,9 @@ void Player::Update(GameManager* gameManager)
 			gameManager->gameStates = gameManager->GAME_CLEAR_ALL;
 		}
 	}
-	else if (this->y > (GetScreenHeight() - 20))
+	else if (this->y > (GetScreenHeight() - 40))
 	{
-		this->y = (GetScreenHeight() - 20);
+		this->y = (GetScreenHeight() - 40);
 	}
 
 	if (!isGrounded)
@@ -70,9 +70,9 @@ void Player::Update(GameManager* gameManager)
 		this->y += this->vy * GetFrameTime();
 		this->vy += this->speed * GetFrameTime();
 
-		if (this->y >= (GetScreenHeight() - 20))
+		if (this->y >= (GetScreenHeight() - 40))
 		{
-			this->y = (GetScreenHeight() - 20);
+			this->y = (GetScreenHeight() - 40);
 			this->vy = -this->speed;
 
 			this->isGrounded = true;
@@ -101,8 +101,11 @@ void Player::Update(GameManager* gameManager)
 
 void Player::Draw()
 {
-	if (!this->isDead)
+	if (!this->isDead) {
 		DrawRectangle(this->x, this->y, this->w, this->h, BLACK);
+		DrawCircle(this->x + 10, this->y - 16, 14, BLACK);
+	}
+
 }
 
 void Player::UnLoad()

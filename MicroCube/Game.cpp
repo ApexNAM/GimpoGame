@@ -216,7 +216,7 @@ void Game::Render()
 		else if (gameManager.getLevelIDX() == 3)
 			DrawText("You're almost there!", 270, 150, 80, BROWN);
 		else if (gameManager.getLevelIDX() == 4)
-			DrawText("Last! Escape!", 270, 150, 80, BROWN);
+			DrawText("Last Escape!", 380, 150, 80, BROWN);
 
 		int textWidth1 = MeasureText("275, Gimpo Hangang 11-ro, Gimpo-si, Gyeonggi-do, Republic of Korea", 25);
 		int textX1 = (1280 - textWidth1) / 2;
